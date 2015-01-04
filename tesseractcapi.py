@@ -25,7 +25,7 @@ import ctypes
 from ctypes import pythonapi, util, py_object
 import io
 import urllib
-from Pillow import Image
+from PIL import Image
 
 """
 Get result string directly from tesseract C API
