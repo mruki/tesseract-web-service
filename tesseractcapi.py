@@ -23,8 +23,8 @@ import sys
 import optparse
 import ctypes
 from ctypes import pythonapi, util, py_object
-import StringIO
-import urllib, cStringIO
+import io
+import urllib
 import Image
 
 """
@@ -73,7 +73,7 @@ class TesseactWrapper:
         # Running tesseract-ocr
         text_out = self.tesseract.TessBaseAPIProcessPages(self.api, filePath, None, 0)
         result_text = ctypes.string_at(text_out)
-        print 'Result: ', result_text
+        print('Result: '.format(result_text))
 
         return result_text.replace("\n", "")
 
@@ -90,7 +90,7 @@ class TesseactWrapper:
             ratio = float(minWidth) / width
             newHeight = int(height * ratio)
             tmpImg = tmpImg.resize((minWidth, newHeight), Image.ANTIALIAS)
-            print "resize image to (" + str(minWidth) + "," + str(newHeight) + ")"
+            print('resize image to ({}, {})'.format(str(minWidth), str(newHeight))
 
         # transform data bytes to single dimensional array
         data = tmpImg.getdata()
@@ -118,7 +118,7 @@ class TesseactWrapper:
         self.tesseract.TessBaseAPIGetUTF8Text.restype = ctypes.c_char_p
         text_out =  self.tesseract.TessBaseAPIGetUTF8Text(self.api)
         result_text = ctypes.string_at(text_out)
-        print 'Result: ', result_text
+        print('Result: '.format(result_text))
   
         return result_text.replace("\n", "")
 
