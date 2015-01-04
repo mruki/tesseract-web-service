@@ -90,7 +90,7 @@ class TesseactWrapper:
             ratio = float(minWidth) / width
             newHeight = int(height * ratio)
             tmpImg = tmpImg.resize((minWidth, newHeight), Image.ANTIALIAS)
-            print('resize image to ({}, {})'.format(str(minWidth), str(newHeight))
+        #print('resize image to ({}, {})'.format(str(minWidth), str(newHeight))
 
         # transform data bytes to single dimensional array
         data = tmpImg.getdata()
