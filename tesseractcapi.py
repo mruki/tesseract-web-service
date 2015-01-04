@@ -50,7 +50,7 @@ class TesseactWrapper:
 
         # preprocessing version name 
         trimmed_version = tesseract_version
-        if tesseract_version.count('.') > 1:
+        if tesseract_version.count(b'.') > 1:
             trimmed_version = tesseract_version[:(tesseract_version.index('.') + 3)]
 
         # We need to check library version because libtesseract.so.3 is symlink
