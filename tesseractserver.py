@@ -4,13 +4,13 @@ import tornado.ioloop
 import tornado.web
 import optparse
 import pprint
-import Image
-import StringIO
+from PIL import Image
+import io
 import os
 import uuid
 
 # for downloading PNG image from url
-import urllib, cStringIO
+import urllib.request
 import json
 
 # C API wrapper
@@ -49,13 +49,13 @@ class FileUploadHandler(tornado.web.RequestHandler):
             ratio = float(targetWidth) / width
             newHeight = int(height * ratio)
             tmpImg = tmpImg.resize((targetWidth, newHeight), Image.ANTIALIAS)
-            print "resize image to (" + str(targetWidth) + "," + str(newHeight) + ")"
+            print("resize image to ({}, {})".format(str(targetWidth), str(newHeight)))
 
         # save tmp image
         global workingFolderPath
         tmpFilePath = workingFolderPath + "/static/" + tempname
-        print "workingFolderPath: ", workingFolderPath
-        print "tmpFilePath: ", tmpFilePath
+        print("workingFolderPath: {}".format(workingFolderPath))
+        print("tmpFilePath: ".format(tmpFilePath))
         tmpImg.save(tmpFilePath)
 
         # do OCR, print result
@@ -127,7 +127,7 @@ class ImageUrlHandler(tornado.web.RequestHandler):
         response = { 'result': result, 'url': url }
         self.write(response)
 
-        print response
+        print(response)
 
  
 settings = {
@@ -172,7 +172,7 @@ def main():
 
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(port)
-    print "Tesseract Web Service starts at port " + str(port) + "."
+    print("Tesseract Web Service starts at port {}".format(str(port)))
     tornado.ioloop.IOLoop.instance().start()
  
 if __name__ == "__main__":

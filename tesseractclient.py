@@ -3,7 +3,6 @@ import sys
 import optparse
 import tornado.httpclient
 import simplejson, json
-import urllib
 
 """
 Get result string from tesseract API
@@ -15,14 +14,14 @@ def ocrAPI(apiUrl, imageUrl):
     headers = { 'Content-Type': 'application/json; charset=UTF-8' }
     http_client = tornado.httpclient.AsyncHTTPClient()
     http_client.fetch(apiUrl, handle_request, method = 'POST', headers = headers, body = post_data)
-    print "Sending request: " + post_data
+    print("Sending request: {}".format(post_data))
     tornado.ioloop.IOLoop.instance().start()
 
 def handle_request(response):
     if response.error:
-        print "Error: ", response.error
+        print("Error: {}".format(response.error))
     else:
-        print "Got response: " + response.body
+        print("Got response: {}".format(response.body))
     tornado.ioloop.IOLoop.instance().stop()
 
 def main():
