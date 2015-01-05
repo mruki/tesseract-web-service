@@ -124,7 +124,7 @@ class TesseactWrapper:
         result_text = ctypes.string_at(text_out)
         print('Result: '.format(result_text))
   
-        return result_text.replace("\n", "")
+        return result_text.replace(b"\n", b"")
 
 def main():
     parser = optparse.OptionParser()
