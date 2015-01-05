@@ -24,7 +24,7 @@ import optparse
 import ctypes
 from ctypes import pythonapi, util, py_object
 import io
-import urllib
+import urllib.request
 from PIL import Image
 
 """
