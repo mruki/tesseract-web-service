@@ -73,7 +73,7 @@ class TesseactWrapper:
         # Running tesseract-ocr
         text_out = self.tesseract.TessBaseAPIProcessPages(self.api, filePath, None, 0)
         result_text = ctypes.string_at(text_out)
-        print('Result: '.format(result_text))
+        print('Result: {}'.format(result_text))
 
         return result_text.replace("\n", "")
 
@@ -122,7 +122,7 @@ class TesseactWrapper:
         self.tesseract.TessBaseAPIGetUTF8Text.restype = ctypes.c_char_p
         text_out =  self.tesseract.TessBaseAPIGetUTF8Text(self.api)
         result_text = ctypes.string_at(text_out)
-        print('Result: '.format(result_text))
+        print('Result: {}'.format(result_text))
   
         return result_text.replace(b"\n", b"")
 
