@@ -110,7 +110,7 @@ class TesseactWrapper:
         # create a ctype ubyte array and copy data to it
         arrayLength = newHeight * minWidth * 4
         ubyteArray = (ctypes.c_ubyte * arrayLength)()
-        for i in xrange(arrayLength):
+        for i in range(arrayLength):
             ubyteArray[i] = copyData[i]
 
         # call SetImage  
