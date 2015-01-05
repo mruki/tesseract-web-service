@@ -151,7 +151,7 @@ def main():
     wrapper = TesseactWrapper(options.lang, options.libPath, options.tessdata)
     result_text = wrapper.imageUrlToString(options.imageUrl, targetWidth)
         
-    print('Result: {}'.format(result_text))
+    print('Result: {}'.format(result_text.decode()))
 
     # Test
     # lang = "eng"
