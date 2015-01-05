@@ -80,7 +80,7 @@ class TesseactWrapper:
     def imageUrlToString(self, url, minWidth):
 
         # download image from url
-        file = cStringIO.StringIO(urllib.urlopen(url).read())
+        file = io.StringIO(urllib.urlopen(url).read())
         tmpImg = Image.open(file)
 
         # force resize to minimal width if the incoming image is too small for better precision
