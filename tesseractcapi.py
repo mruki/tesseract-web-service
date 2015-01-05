@@ -144,8 +144,8 @@ def main():
     else:
         targetWidth = options.minWidth
 
-    print('lang: '.format(options.lang))
-    print('tessdata: '.format(options.tessdata))
+    print('lang: {}'.format(options.lang))
+    print('tessdata {}: '.format(options.tessdata))
 
     # call tesseract C API
     wrapper = TesseactWrapper(options.lang, options.libPath, options.tessdata)
