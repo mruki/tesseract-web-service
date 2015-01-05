@@ -62,7 +62,7 @@ class TesseactWrapper:
 
         self.api = self.tesseract.TessBaseAPICreate()
 
-        rc = self.tesseract.TessBaseAPIInit3(self.api, tessdata, lang)
+        rc = self.tesseract.TessBaseAPIInit3(self.api, tessdata, lang.encode('ascii'))
         if (rc):
             self.tesseract.TessBaseAPIDelete(self.api)
             print("Could not initialize tesseract.\n")
@@ -143,9 +143,6 @@ def main():
         targetWidth = 150
     else:
         targetWidth = options.minWidth
-
-    print('lang: {}'.format(options.lang))
-    print('tessdata {}: '.format(options.tessdata))
 
     # call tesseract C API
     wrapper = TesseactWrapper(options.lang, options.libPath, options.tessdata)
