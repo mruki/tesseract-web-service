@@ -83,7 +83,7 @@ class TesseactWrapper:
 #        file = io.StringIO(urllib.urlopen(url).read())
 
         with urllib.request.urlopen(url) as urlContent:
-            file = io.StringIO(urlContent.read())
+            file = urlContent.read()
                 
         tmpImg = Image.open(file)
 
