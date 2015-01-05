@@ -122,7 +122,6 @@ class TesseactWrapper:
         self.tesseract.TessBaseAPIGetUTF8Text.restype = ctypes.c_char_p
         text_out =  self.tesseract.TessBaseAPIGetUTF8Text(self.api)
         result_text = ctypes.string_at(text_out)
-        print('Result: {}'.format(result_text))
   
         return result_text.replace(b"\n", b"")
 
@@ -150,7 +149,9 @@ def main():
 
     # call tesseract C API
     wrapper = TesseactWrapper(options.lang, options.libPath, options.tessdata)
-    wrapper.imageUrlToString(options.imageUrl, targetWidth)
+    result_text = wrapper.imageUrlToString(options.imageUrl, targetWidth)
+        
+    print('Result: {}'.format(result_text))
 
     # Test
     # lang = "eng"
