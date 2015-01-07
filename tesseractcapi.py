@@ -26,24 +26,30 @@ from ctypes import pythonapi, util, py_object
 import io
 import urllib.request
 from PIL import Image
+import traceback
 
 """
 Get result string directly from tesseract C API
 """
 class TesseactWrapper:
     def __init__(self, lang, libpath, tessdata):
-        libname = libpath + "/libtesseract.so.3.0.2"
-        libname_alt = "/libtesseract.so.3"
+        
+        os.environ["DYLD_LIBRARY_PATH"] += os.pathsep + libpath
+        libname = ctypes.util.find_library('tesseract')
+        
+        if libname is None:
+            print("library name not deducted, exiting")
+            exit(1)
+        else:
+            print("library name found: %s" % libname)
 
         try:
             self.tesseract = ctypes.cdll.LoadLibrary(libname)
         except:
-            try:
-                self.tesseract = ctypes.cdll.LoadLibrary(libname_alt)
-            except:
-                print("Trying to load '%s'..." % libname)
-                print("Trying to load '%s'..." % libname_alt)
-                exit(1)
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
+            print(''.join('!! ' + line for line in lines))  # Log it or whatever here
+            exit(1)
 
         self.tesseract.TessVersion.restype = ctypes.c_char_p
         tesseract_version = self.tesseract.TessVersion()
@@ -60,9 +66,10 @@ class TesseactWrapper:
             print("C-API is present only in version 3.02!")
             exit(2)
 
+        self.tesseract.TessBaseAPICreate.restype = ctypes.POINTER(ctypes.c_void_p)
         self.api = self.tesseract.TessBaseAPICreate()
 
-        rc = self.tesseract.TessBaseAPIInit3(self.api, tessdata, lang.encode('ascii'))
+        rc = self.tesseract.TessBaseAPIInit3(self.api, tessdata.encode(), lang.encode())
         if (rc):
             self.tesseract.TessBaseAPIDelete(self.api)
             print("Could not initialize tesseract.\n")
@@ -114,7 +121,7 @@ class TesseactWrapper:
             ubyteArray[i] = copyData[i]
 
         # call SetImage  
-        self.tesseract.TessBaseAPISetImage.argtypes = [ctypes.c_int, ctypes.POINTER(ctypes.c_ubyte), ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int]
+        self.tesseract.TessBaseAPISetImage.argtypes = [ctypes.POINTER(ctypes.c_void_p), ctypes.POINTER(ctypes.c_ubyte), ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int]
         self.tesseract.TessBaseAPISetImage.restype = ctypes.c_void_p
         self.tesseract.TessBaseAPISetImage(self.api, ubyteArray, minWidth, newHeight, 4, bytesPerLine)
 
