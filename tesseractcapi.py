@@ -75,6 +75,26 @@ class TesseactWrapper:
             print("Could not initialize tesseract.\n")
             exit(3)
 
+    def libraryFullPath(self, libpath):
+        
+        tesseractName = 'tesseract'
+        
+        if "DYLD_LIBRARY_PATH" not in os.environ:
+            os.environ["DYLD_LIBRARY_PATH"] = ''
+        
+        os.environ["DYLD_LIBRARY_PATH"] += os.pathsep + libpath
+        libname = ctypes.util.find_library(tesseractName)
+    
+        if libname is None:
+            if os.name == "posix" and sys.platform != "darwin":
+                expr = r'lib%s\.so' % re.escape(tesseractName)
+                res = re.search(expr, os.listdir(libpath))
+    
+                if res:
+                    return res.group(0)
+    
+        return libname
+
     def imageFileToString(self, filePath):
         
         # Running tesseract-ocr
