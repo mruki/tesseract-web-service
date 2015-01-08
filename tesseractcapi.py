@@ -27,6 +27,7 @@ import io
 import urllib.request
 from PIL import Image
 import traceback
+import re
 
 """
 Get result string directly from tesseract C API
