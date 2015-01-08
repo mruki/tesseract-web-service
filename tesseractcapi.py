@@ -34,8 +34,7 @@ Get result string directly from tesseract C API
 class TesseactWrapper:
     def __init__(self, lang, libpath, tessdata):
         
-        os.environ["DYLD_LIBRARY_PATH"] += os.pathsep + libpath
-        libname = ctypes.util.find_library('tesseract')
+        libname = self.libraryFullPath(libpath)
         
         if libname is None:
             print("library name not deducted, exiting")
