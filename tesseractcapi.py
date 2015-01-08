@@ -88,10 +88,11 @@ class TesseactWrapper:
         if libname is None:
             if os.name == "posix" and sys.platform != "darwin":
                 expr = r'lib%s\.so' % re.escape(tesseractName)
-                res = re.search(expr, os.listdir(libpath))
-    
-                if res:
-                    return res.group(0)
+                
+                for f in os.listdir(libpath):
+                    res = re.search(expr, f)
+                    if res:
+                        return res.group(0)
     
         return libname
 
