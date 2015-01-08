@@ -92,7 +92,7 @@ class TesseactWrapper:
                 for f in os.listdir(libpath):
                     res = re.search(expr, f)
                     if res:
-                        return res.group(0)
+                        return libpath + "/" + res.group(0)
     
         return libname
 
