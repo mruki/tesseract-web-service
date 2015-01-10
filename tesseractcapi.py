@@ -35,7 +35,11 @@ Get result string directly from tesseract C API
 class TesseactWrapper:
     def __init__(self, lang, libpath, tessdata):
         
-        libname = self.libraryFullPath(libpath)
+        self.__lang = lang
+        self.__libpath = libpath
+        self.__tessdata = tessdata
+        
+        libname = self.libraryFullPath(self.__libpath)
         
         if libname is None:
             print("library name not deducted, exiting")
@@ -52,9 +56,8 @@ class TesseactWrapper:
             exit(1)
         
         # TESSDATA_PREFIX
-        
         if "TESSDATA_PREFIX" not in os.environ:
-            os.environ["TESSDATA_PREFIX"] = tessdata
+            os.environ["TESSDATA_PREFIX"] = self.__tessdata
 
         self.tesseract.TessVersion.restype = ctypes.c_char_p
         tesseract_version = self.tesseract.TessVersion()
@@ -74,7 +77,7 @@ class TesseactWrapper:
         self.tesseract.TessBaseAPICreate.restype = ctypes.POINTER(ctypes.c_void_p)
         self.api = self.tesseract.TessBaseAPICreate()
 
-        rc = self.tesseract.TessBaseAPIInit3(self.api, tessdata.encode(), lang.encode())
+        rc = self.tesseract.TessBaseAPIInit3(self.api, self.__tessdata.encode(), self.__lang.encode())
         if (rc):
             self.tesseract.TessBaseAPIDelete(self.api)
             print("Could not initialize tesseract.\n")

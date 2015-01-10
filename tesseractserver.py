@@ -17,9 +17,6 @@ import json
 from tesseractcapi import TesseactWrapper
 
 # global variables
-lang = "eng"
-libpath = ""
-tessdata = ""
 workingFolderPath = os.getcwd()
 wrapper = None
 
@@ -148,24 +145,16 @@ def main():
     parser.add_option('-d', '--tessdata-folder', dest='tessdata', help='the absolute path of tessdata folder containing language packs.')
     (options, args) = parser.parse_args()
 
-    global lang
-    global libpath
-    global tessdata
     global wrapper
 
-    if options.lang:   # if lang is given
-        lang = options.lang
     if not options.libPath:   # if libPath is not given
         parser.error('lib-path not given')
-    else:
-        libpath = options.libPath
+    
     if not options.tessdata:   # if tessdata is not given
         parser.error('tessdata not given')
-    else:
-        tessdata = options.tessdata
     
     # create global wrapper instance for reuse
-    wrapper = TesseactWrapper(lang, libpath, tessdata)
+    wrapper = TesseactWrapper(options.lang, options.libpath, options.tessdata)
 
     port = options.port
     if not options.port:   # if port is not given, use the default one 
