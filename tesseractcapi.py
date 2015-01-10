@@ -50,6 +50,11 @@ class TesseactWrapper:
             lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
             print(''.join('!! ' + line for line in lines))  # Log it or whatever here
             exit(1)
+        
+        # TESSDATA_PREFIX
+        
+        if "TESSDATA_PREFIX" not in os.environ:
+            os.environ["TESSDATA_PREFIX"] = tessdata
 
         self.tesseract.TessVersion.restype = ctypes.c_char_p
         tesseract_version = self.tesseract.TessVersion()
